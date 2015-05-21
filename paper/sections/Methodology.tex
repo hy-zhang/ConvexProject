@@ -47,7 +47,7 @@ In the residues, $\lambda$, $\nu$ and $f(x,p)$ are unknown. Hence our aim is to 
 
 \subsection{Determine the Coefficients}
 
-To simulate the objective function $f(x,p)$, we usually prepare a set of basic functions $h_i(x,p)$ for it, by using linear combinations. Namely,
+To estimate the objective function $f(x,p)$, we usually prepare a set of basic functions $h_i(x,p)$ for it, by using linear combinations. Namely,
 \[f(x,p)=\sum_ik_ih_i(x,p)\]
 
 The coefficients $k_i$ are to be determined such that the residues of KKT conditions are very close to zero. We can, for example, use the sum of norms to represent the vector optimization problem. Namely, with a total number of $S$ sample points, the problem is
@@ -58,4 +58,19 @@ The coefficients $k_i$ are to be determined such that the residues of KKT condit
 \end{split}
 \end{align}
 
-~
+\subsection{Discussion}
+
+Two issues arise here:
+\begin{itemize}
+\item The basic functions are important for fitting. To impute the original objective function with the linear combination of some functions, we need enough and non-trivial basic functions. Moreover, the imputed function can be a multiplier of the original function, we may do normalization in applications.
+\item Under some circumstances, for example, the basic functions don't contain enough information for fitting, trivial solutions can appear. For instance, $\lambda=0$, $\nu=0$, $f\equiv0$ is a solution to~(\ref{p3}). For refinement, we can ``force'' the solution to avoid such cases. An altenative would be as follows:
+    \begin{align}
+    \begin{split}\label{p4}
+    \textrm{minimize }\hspace{.2in}&\sum_{s=1}^S(\|r_1(s)\|_2^2+\|r_2(s)\|_2^2)\\
+    &\hspace{.1in}-t\log(\|k\|_2^2+\|\lambda\|_2^2+\|\nu\|_2^2)\\
+    \textrm{subject to:}\hspace{.2in}&\lambda(s)\succeq0,\hspace{.1in}s=1,\cdots,S
+    \end{split}
+    \end{align}
+\end{itemize}
+
+This optimization problem can also return a good estimation when $t>0$ is small enough.
