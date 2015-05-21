@@ -1,3 +1,61 @@
 \section{Methodology}\label{sec:methodology}
 
-Methodology.
+\subsection{Problem Description}
+
+Among optimization problems, specifically, we restrict our focuses on convex optimization problems. A general convex optimization problem has the following standard form:
+\begin{align}
+\begin{split}\label{p1}
+\textrm{minimize }\hspace{.2in}&f_0(x)\\
+\textrm{subject to:}\hspace{.2in}&f_i(x)\le0,\hspace{.1in}i=1,\cdots,m\\
+&h_i(x)=0,\hspace{.1in}i=1,\cdots,p
+\end{split}
+\end{align}
+
+Here the objective function $f_0(x)$ is a convex function, and $f_i(x)$ are also convex functions. The functions $h_i(x)$ in equality constraints, however, are linear functions over $x$.
+
+Next, we introduce the parameterized convex optimization model presented in~\cite{keshavarz2011}, as follows:
+\begin{align}
+\begin{split}\label{p2}
+\textrm{minimize }\hspace{.2in}&f_0(x,p)\\
+\textrm{subject to:}\hspace{.2in}&f_i(x,p)\le0,\hspace{.1in}i=1,\cdots,m\\
+&A(p)x=b(p)
+\end{split}
+\end{align}
+
+Here $p$ is a parameter of this problem, which implies an optimal point $x^*$ is the function of $p$, namely $x^*=x^*(p)$.
+
+Usually, in some applications, a list of pairs $(x^*,p)$ are observed and collected, but the objective function $f_0(x,p)$ is unknown. Our goal is to estimate, or impute the objective function $f_0(x,p)$ from the list of sample points. Other components, including $f_i(x,p)$, $A(p)$ and $b(p)$, are considered given.
+
+\subsection{KKT Conditions}
+
+The Lagrangian dual form of the primal problem~(\ref{p2}), introduces new variables $\lambda_i$ and $\nu$. Since any optimal solution $(x^*,\lambda^*,\mu^*)$ must satisfy the KKT conditions, we sort out the KKT conditions below.
+
+\begin{itemize}
+\item Primal constraints: \[f_i(x,p)\le0,\ A(p)x=b(p)\]
+\item Dual constraints: \[\lambda\succeq0\]
+\item Complementary slackness: \[\lambda_if_i(x,p)=0\]
+\item Gradient of Lagrangian: \[\nabla f(x,p)+\sum_{i=1}^m\lambda_i\nabla f_i(x,p)+A(p)^T\nu=0\]
+\end{itemize}
+
+As can be seen, whether primal constraints are satisfied doesn't depend on the dual parameters $\lambda,\nu$, but is judged with sample points $(x^*,p^*)$ given. Moreover, since we are doing estimation of the objective function, we cannot guarantee that the other conditions are strictly satisfied, but our solution should try to be \textit{approximately optimal}~\cite{keshavarz2011}. Specifically, residues over KKT conditions are
+\begin{align}
+r_{1i}&=\lambda_if_i(x,p)\\
+r_2&=\nabla f(x,p)+\sum_{i=1}^m\lambda_i\nabla f_i(x,p)+A(p)^T\nu
+\end{align}
+
+In the residues, $\lambda$, $\nu$ and $f(x,p)$ are unknown. Hence our aim is to find $(\lambda,\nu,f)$ such that the residues are as close to zero as possible.
+
+\subsection{Determine the Coefficients}
+
+To simulate the objective function $f(x,p)$, we usually prepare a set of basic functions $h_i(x,p)$ for it, by using linear combinations. Namely,
+\[f(x,p)=\sum_ik_ih_i(x,p)\]
+
+The coefficients $k_i$ are to be determined such that the residues of KKT conditions are very close to zero. We can, for example, use the sum of norms to represent the vector optimization problem. Namely, with a total number of $S$ sample points, the problem is
+\begin{align}
+\begin{split}\label{p3}
+\textrm{minimize }\hspace{.2in}&\sum_{s=1}^S(\|r_1(s)\|_2^2+\|r_2(s)\|_2^2)\\
+\textrm{subject to:}\hspace{.2in}&\lambda(s)\succeq0,\hspace{.1in}s=1,\cdots,S
+\end{split}
+\end{align}
+
+~
