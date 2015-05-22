@@ -1,3 +1,33 @@
 \section{Introduction}\label{sec:introduction}
 
-Introduction~\cite{keshavarz2011}.
+Optimization problems have been long focused on modeling real-world applications as objective functions first, and apply optimization algorithms to obtain a solution thereafter.
+Researchers over the decades have witnessed the success of such ``forward optimization'' as a powerful tool in fields as engineering, science and economics studies.
+
+Given this, we would then pose the ``inverse optimization'' problem: given existing optimal values, regarding which as the result of a certain optimization problem, can we then recover the original objective function?
+
+We notice that such problem has seen its application in various fields.
+Liu, Hertzmann and Popovi\'{c} \cite{Liu:2005:LPM} presents a way of modeling character animation synthesis as a Nonlinear Inverse Optimization(NIO) problem, thus facilitates the use of recorded human motion data, to bridge the plausibility gap between animated and realistic motion.
+The outlined work above formalizes character motion as an optimization problem while regarding human motion as the optimized result. By carefully setting some parameter in the objective function, the result gets much closer to realistic.
+
+Another benefit from parameterized method is it saves tremendous amount of tedious labor work.
+
+With similar motivation and metric, Vollick, Vogel, Agrawala, and Hertzmann \cite{Vollick:2007:SLL} presented an application in learning labeling style by demonstration.
+
+A survey in existing literature from the field of machine learning and autonomous control shows applications of the similar technique.
+Ng et al. \cite{Coates:2009:ALH} demonstrates a novel way to learn an autonomous helicopter controller from so called ``Inverse Reinforcement Learning'' method, the idea of which could be traced from the authors' earlier works \cite{Ng:2000:AIR}.
+
+The major difference of Inverse Reinforcement Learning(IRL) methods and our method is IRL takes a finite and discrete solution space, usually known as state space, while our method solves such problem by modeling a continuous-valued convex optimization objectives.
+
+\subsection{A Comparison between Machine Learning Approaches}
+Generally speaking, our method is suitable for the situation in which not trivially ``taught'' skills are involved, the motion of animated character, the stylish labeling and control of the high DOF helicopter are examples named above.
+For such skills, instead of itemizing a whole rule-list, (which could be inevitably long) people would prefer demonstrating the intended behavior for other people or the machine to learn to do so.
+
+We will see the demonstrated behavior as the optimized result, by assuming it comes from a convex optimization problem, set parameters in the objective function of which.
+
+The method shares a similar metric with parameterized machine learning problems, or parameter estimation in statistics.
+
+One major reason that harms the performance of parameterized machine learning algorithms is the Overfitting problem, by setting desired result, and running designated algorithm to tune model parameters that fit to the targets could result in a good performance in the existing dataset, usually known as training set, while fail to generalize in new application cases.
+
+We claim that problems using the method are tailored for specific applications, thus overfitting won't harm a lot.
+
+By relaxing the last two KKT conditions, we obtain a model of minimizing the loss from not satisfying stationarity and complementary slackness, which borrows the idea from regression problems.
