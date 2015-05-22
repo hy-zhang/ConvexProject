@@ -1,3 +1,35 @@
 \section{Evaluation}\label{sec:evaluation}
 
-Evaluation.
+In this section, we present several applications of imputing objective functions. Furthermore, for each case, we first use mathematical modelling to get a convex optimization problem, then we design or apply our approaches and algorithms before implementation. With processing of experimental data and diagrams, we lead a discussion on the performance as well as future work.
+
+\subsection{Curve Fitting}
+
+Curve fitting (\haoyuan{ref}) has widespread applications in data processing among various areas, including big data, machine learning, simulation, noise reduction and so on (\haoyuan{ref}). Interpolation is known as an effective approach for curve fitting. However in this model, we mainly concentrate on a situation of implicit curve fitting. That is to say, we derive an approximate form of the original function by observing the extreme-value points.
+
+We start from a simple example. Suppose the primal function is $f(x)=ax^2+bx$. The values $a$ and $b$ cannot be observed, and hence can only be derived from a set of sample points. As we discussed in the last section, the objective function can be any multiple of $f(x)$. To ensure a unique solution, we model this problem as below.
+\begin{align}
+\begin{split}\label{quad}
+\textrm{minimize }\hspace{.2in}&px+f(x)\\
+\textrm{subject to:}\hspace{.2in}&x\ge0
+\end{split}
+\end{align}
+
+Note that we require $a>0$ so that~(\ref{quad}) is a parameterized convex optimization problem, and we only care about nonnegative solutions. The residues of KKT conditions are
+\begin{align*}
+r_1 &= -\lambda x\\
+r_2 &= p+\nabla f(x)-\lambda
+\end{align*}
+
+By~(\ref{p3}), suppose a list of $S$ sample points $(x^*,p)$ are observed from the primal problem~(\ref{quad}). If we assume another quadratic function $\tilde{f}(x)=mx^2+nx$ to fit $f(x)$, we derive the values of $m,n$ by
+\begin{align*}
+\begin{split}
+\textrm{minimize }\hspace{.2in}&\sum_{s=1}^S\left[(2mx_s^*+n+p_s-\lambda_s)^2+(-\lambda_s x_s^*)^2\right]\\
+\textrm{subject to:}\hspace{.2in}&\lambda_s\ge0,\hspace{.1in}s=1,\cdots,S
+\end{split}
+\end{align*}
+
+Another approach for this problem: since $px+\tilde{f}(x)$ reaches the extreme value at $x=-\frac{n+p}{2m}$, we can easily figure out $m,n$ with those sample points by interpolation. But we are not to implement this approach, as we focus more on the performance of the parameterized programming.
+
+Next we conducted the experiment using Matlab 2014a. We randomly select $a=1$, $b=-10$ for the primal problem. 100 sample points are acquired by setting $p\in[2,8]$ with a uniform distribution and solving the primal problem.
+
+\subsection{Decision Making in Game Theory}
